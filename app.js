@@ -15,32 +15,31 @@ import usersRouter from "./routes/users.js";
 import authRouter from "./routes/auth.js";
 import realisationsRouter from "./routes/realisations.js";
 
-// Configuration
 dotenv.config();
 connectDB();
 
-// Reconstituer __dirname (car ESM)
+// reconstituer __dirname en ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
 
-// ====== LOGGER + JSON ======
+// logger + parsers
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// ====== CORS ======
+// ====== CORS CONFIG ======
 const allowedOrigins = [
-  "http://localhost:3000", // pour ton environnement local
-  "https://cmc-cuisine.vercel.app", // ton front en production
+  "http://localhost:3000",
+  "https://cmc-cuisine.vercel.app",
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // autorise aussi les outils sans origin (Thunder Client, Postman, etc.)
+      // autoriser Thunder / Postman (pas d'origin)
       if (!origin) return callback(null, true);
       if (!allowedOrigins.includes(origin)) {
         console.warn("❌ CORS blocked origin:", origin);
@@ -54,10 +53,10 @@ app.use(
   })
 );
 
-// Permet les requêtes OPTIONS (preflight)
-app.options("*", cors());
+// si tu veux vraiment gérer les preflight manuels, fais plutôt :
+// app.options("/api/*", cors());
 
-// ====== STATIC FILES (uploads) ======
+// ====== STATIC ======
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ====== ROUTES ======
@@ -66,9 +65,9 @@ app.use("/users", usersRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/realisations", realisationsRouter);
 
-// ====== TEST ROUTE (ping Render) ======
+// petit ping
 app.get("/ping", (req, res) => {
-  res.json({ message: "pong 🟢 backend opérationnel" });
+  res.json({ message: "pong 🟢" });
 });
 
 export default app;
