@@ -32,7 +32,7 @@ app.use(cookieParser());
 
 // ====== CORS CONFIG ======
 const allowedOrigins = [
-  "http://localhost:3000",
+  "http://localhost:3001",
   "https://cmc-cuisine.vercel.app",
 ];
 
