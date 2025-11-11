@@ -14,6 +14,7 @@ import indexRouter from "./routes/index.js";
 import usersRouter from "./routes/users.js";
 import authRouter from "./routes/auth.js";
 import realisationsRouter from "./routes/realisations.js";
+import contactRoutes from "./routes/contact.js";
 
 dotenv.config();
 connectDB();
@@ -64,6 +65,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/realisations", realisationsRouter);
+app.use("/api/contact", contactRoutes);
 
 // petit ping
 app.get("/ping", (req, res) => {
